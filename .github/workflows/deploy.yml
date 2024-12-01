@@ -20,9 +20,13 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
       
+      - name: Debug SSH connection
+        run: |
+          ssh -v -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "pwd"
+      
       - name: Deploy with rsync
         run: |
-          rsync -avz --delete \
+          rsync -avvz --delete \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             --exclude '.git*' \
             --exclude 'data' \

@@ -34,17 +34,17 @@ jobs:
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "
             # 修复权限
-            sudo chown -R www-data:www-data /www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/
-            sudo chmod -R 755 /www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/
+            sudo chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/
+            sudo chmod -R 755 /www/dk_project/dk_app/onenav_dev/
             
             # 验证文件存在
-            if [ ! -f /www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/index.php ]; then
+            if [ ! -f /www/dk_project/dk_app/onenav_dev/index.php ]; then
               echo 'Error: index.php not found!'
               exit 1
             fi
             
             # 重启容器
-            cd /www/dk_project/dk_app/onenav/onenav_nz8t
+            cd /www/dk_project/dk_app/onenav_dev
             docker-compose down
             docker-compose up -d
           "

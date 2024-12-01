@@ -26,8 +26,6 @@ jobs:
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             --exclude '.git*' \
             --exclude 'data' \
-            --exclude '.env' \
-            --exclude 'docker-compose.yml' \
             ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav_dev/
       
       - name: Fix permissions and verify deployment

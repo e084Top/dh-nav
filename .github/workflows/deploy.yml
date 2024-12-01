@@ -1,0 +1,36 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [ main ]  # 或者您指定的其他分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+      
+      - name: Add known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      
+      - name: Deploy to server
+        run: |
+          # 同步代码到服务器
+          rsync -avz --delete \
+            -e "ssh -p ${{ secrets.SERVER_PORT }}" \
+            --exclude '.git*' \
+            --exclude 'data' \
+            ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav_dev/
+          
+          # 设置权限
+          ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "
+            chmod -R 755 /www/dk_project/dk_app/onenav_dev/
+            chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/
+          " 

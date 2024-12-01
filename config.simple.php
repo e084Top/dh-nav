@@ -21,13 +21,13 @@ define('TEMPLATE','default');
 //站点信息
 $site_setting = [];
 //站点标题
-$site_setting['title']          =   'OneNav';
+$site_setting['title']          =   'ON';
 //文字Logo
-$site_setting['logo']          =   'OneNav';
+$site_setting['logo']          =   'ON';
 //站点关键词
-$site_setting['keywords']       =   'OneNav,OneNav导航,OneNav书签,开源导航,开源书签,简洁导航,云链接,个人导航,个人书签';
+$site_setting['keywords']       =   'ON,ON导航,ON书签,开源导航,开源书签,简洁导航,云链接,个人导航,个人书签';
 //站点描述
-$site_setting['description']    =   'OneNav是一款使用PHP + SQLite3开发的简约导航/书签管理器，免费开源。';
+$site_setting['description']    =   'ON + SQLite3开发的简约导航/书签管理器，免费开源。';
 
 //这两项不要修改
 $site_setting['user']           =   USER;

@@ -20,7 +20,7 @@
 					<?php echo $msg; ?>
 				</div>
 				<hr>
-				<div class="xcdn-footer">Powered by <a href="https://www.onenav.top/" title = "开源免费的书签管理系统" target = "_blank">OneNav</a></div>
+				<!-- <div class="xcdn-footer">Powered by <a href="https://www.onenav.top/" title = "开源免费的书签管理系统" target = "_blank">OneNav</a></div> -->
 			</div>
 		</div>
 	</div>

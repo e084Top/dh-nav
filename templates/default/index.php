@@ -53,7 +53,7 @@
 	  ?>	
 	  <a class = "mdui-hidden-xs" href="/index.php?c=admin" title = "后台管理" target="_blank" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">account_circle</i></a>
 	  <?php }else{ ?>
-		<a class = "mdui-hidden-xs" href="/index.php?c=login" title = "登录OneNav" target="_blank" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">account_circle</i></a>
+		<a class = "mdui-hidden-xs" href="/index.php?c=login" title = "登录ON" target="_blank" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">account_circle</i></a>
 	  <?php } ?>
     </a>
 		</div>

@@ -16,7 +16,7 @@
 	<body>
 		<div class="quick-main">
 			<div class="title">
-				<i class="iconfont icon--_tianjia"></i>快速添加链接到OneNav
+				<i class="iconfont icon--_tianjia"></i>快速添加链接到ON
 			</div>
 			<form class="layui-form">
 				<div class="list">

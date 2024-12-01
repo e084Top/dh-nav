@@ -28,7 +28,7 @@ jobs:
             --exclude 'data' \
             --exclude '.env' \
             --exclude 'docker-compose.yml' \
-            ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/
+            ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav_dev/
       
       - name: Fix permissions and verify deployment
         run: |

@@ -20,21 +20,31 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
       
-      - name: Debug SSH connection
-        run: |
-          ssh -v -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "pwd"
-      
       - name: Deploy with rsync
         run: |
           rsync -avvz --delete \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             --exclude '.git*' \
             --exclude 'data' \
-            ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav_dev/
+            --exclude '.env' \
+            --exclude 'docker-compose.yml' \
+            ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/
       
-      - name: Set permissions
+      - name: Fix permissions and verify deployment
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "
-            chmod -R 755 /www/dk_project/dk_app/onenav_dev/
-            chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/
+            # 修复权限
+            sudo chown -R www-data:www-data /www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/
+            sudo chmod -R 755 /www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/
+            
+            # 验证文件存在
+            if [ ! -f /www/dk_project/dk_app/onenav/onenav_nz8t/onenav_dev/index.php ]; then
+              echo 'Error: index.php not found!'
+              exit 1
+            fi
+            
+            # 重启容器
+            cd /www/dk_project/dk_app/onenav/onenav_nz8t
+            docker-compose down
+            docker-compose up -d
           "

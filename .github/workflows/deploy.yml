@@ -32,47 +32,9 @@ jobs:
             --exclude 'data' \
             ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav_dev/
       
-      - name: Fix permissions and verify deployment
+      - name: Set permissions
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "
-            set -e  # 添加错误检查
-            
-            echo '开始部署流程...'
-            
-            # 复制docker-compose.yml到部署目录
-            echo '复制 docker-compose.yml...'
-            cp /www/dk_project/dk_app/onenav/onenav_nz8t/docker-compose.yml /www/dk_project/dk_app/onenav_dev/
-            
-            # 修复权限
-            echo '修复目录权限...'
-            sudo chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/
-            sudo chmod -R 755 /www/dk_project/dk_app/onenav_dev/
-            
-            # 验证文件存在
-            echo '验证文件完整性...'
-            if [ ! -f /www/dk_project/dk_app/onenav_dev/index.php ]; then
-              echo 'Error: index.php not found!'
-              exit 1
-            fi
-            
-            # 检查 docker-compose.yml 文件
-            echo '验证 docker-compose.yml...'
-            if [ ! -f /www/dk_project/dk_app/onenav_dev/docker-compose.yml ]; then
-              echo 'Error: docker-compose.yml not found!'
-              exit 1
-            fi
-            
-            # 重启容器前先验证配置
-            echo '验证 docker-compose 配置...'
-            cd /www/dk_project/dk_app/onenav_dev
-            docker-compose config
-            
-            # 重启容器
-            echo '重启容器...'
-            docker-compose down
-            docker-compose up -d
-            
-            # 检查容器状态
-            echo '检查容器状态...'
-            docker-compose ps
+            chmod -R 755 /www/dk_project/dk_app/onenav_dev/
+            chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/
           "

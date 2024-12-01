@@ -36,7 +36,7 @@ jobs:
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "
             # 复制docker-compose.yml到部署目录
-            cp /www/dk_project/dk_app/onenav_n28t/docker-compose.yml /www/dk_project/dk_app/onenav_dev/
+            cp /www/dk_project/dk_app/onenav/onenav_n28t/docker-compose.yml /www/dk_project/dk_app/onenav_dev/
             
             # 修复权限
             sudo chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/

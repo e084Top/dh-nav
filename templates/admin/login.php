@@ -23,7 +23,7 @@
     </section>
     <section class="right">
       <!-- PC版的样式 -->
-      <h2>OneNav后台管理系统</h2>
+      <h2>ON后台管理系统</h2>
       <div class="login_frame">
         <div class="login_box">
           <h4>管理登录</h4>

@@ -2,35 +2,35 @@ name: Deploy to Server
 
 on:
   push:
-    branches: [ main ]  # 或者您指定的其他分支
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          known_hosts: unnecessary
+          if_key_exists: replace
       
-      - name: Add known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
       
-      - name: Deploy to server
+      - name: Deploy with rsync
         run: |
-          # 同步代码到服务器
           rsync -avz --delete \
             -e "ssh -p ${{ secrets.SERVER_PORT }}" \
             --exclude '.git*' \
             --exclude 'data' \
             ./ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/www/dk_project/dk_app/onenav_dev/
-          
-          # 设置权限
+      
+      - name: Set permissions
+        run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "
             chmod -R 755 /www/dk_project/dk_app/onenav_dev/
             chown -R www-data:www-data /www/dk_project/dk_app/onenav_dev/
-          " 
+          "
